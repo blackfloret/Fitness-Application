@@ -16,6 +16,7 @@ import com.example.westernfit.placeholder.PlaceholderContent
 class WorkoutListFragment : Fragment() {
 
     private var columnCount = 1
+    lateinit var workoutDataList: MutableList<WorkoutData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,7 @@ class WorkoutListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyWorkoutDataRecyclerViewAdapter(PlaceholderContent.ITEMS)
+                adapter = MyWorkoutDataRecyclerViewAdapter(workoutDataList)
             }
         }
         return view
@@ -51,11 +52,12 @@ class WorkoutListFragment : Fragment() {
 
         // TODO: Customize parameter initialization
         @JvmStatic
-        fun newInstance(columnCount: Int, workoutList: List<WorkoutData>) =
-            WorkoutListFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
+        fun newInstance(columnCount: Int, workoutList: MutableList<WorkoutData>): WorkoutListFragment {
+            val fragment = WorkoutListFragment().apply {
+                this.columnCount = columnCount
+                workoutDataList = workoutList
             }
+            return fragment
+        }
     }
 }
